@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Thought = require('../models/Thoughts');
+const Thought = require('../models/Thoughts'); // Ensure the path and case are correct
 
 // Get all thoughts
 router.get('/thoughts', async (req, res) => {
@@ -23,14 +23,14 @@ router.post('/thoughts', async (req, res) => {
   }
 });
 
-// GET a single user by ID
+// GET a single thought by ID (fixed)
 router.get('/thoughts/:id', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const thought = await Thought.findById(req.params.id); // Fixed from User to Thought
+    if (!thought) {
+      return res.status(404).json({ message: 'Thought not found' });
     }
-    res.status(200).json(user);
+    res.status(200).json(thought);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
