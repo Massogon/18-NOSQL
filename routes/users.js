@@ -26,6 +26,19 @@ router.get('/users/:id', async (req, res) => {
   }
 });
 
+// Update a user
+router.put('/users/:id', async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!user) {
+      return res.status(404).send();
+    }
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(400).send({ error: err.message });
+  }
+});
+
 // POST create a new user
 router.post('/users', async (req, res) => {
   try {
@@ -52,6 +65,20 @@ router.post('/users/:userId/friends/:friendId', async (req, res) => {
     res.status(200).json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+
+// Delete a user
+router.delete('/users/:id', async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return res.status(404).send();
+    }
+    res.status(200).send("User and associated thought deleted.");
+  } catch (err) {
+    res.status(500).send({ error: err.message });
   }
 });
 
