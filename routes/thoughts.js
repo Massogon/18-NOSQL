@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Thought = require('../models/Thought');
+const Thought = require('../models/Thoughts');
 
 // Get all thoughts
 router.get('/thoughts', async (req, res) => {
@@ -20,6 +20,19 @@ router.post('/thoughts', async (req, res) => {
     res.status(201).send(thought);
   } catch (err) {
     res.status(400).send({ error: err.message });
+  }
+});
+
+// GET a single user by ID
+router.get('/thoughts/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
